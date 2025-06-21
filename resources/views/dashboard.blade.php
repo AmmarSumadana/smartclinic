@@ -4,13 +4,9 @@
 @section('page-title', 'Dashboard Pasien')
 
 @push('head')
-    <!-- Font Awesome untuk ikon -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
-    <!-- Animate.css untuk animasi -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
-    <!-- Chart.js CDN -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
 
     {{-- Custom CSS for consistency --}}
@@ -120,10 +116,8 @@
     @endif
 
     {{-- Grid for Rumah Sakit, Konsultasi, Tes Lab --}}
-    {{-- Diubah dari md:grid-cols-3 menjadi lg:grid-cols-3 agar bertumpuk hingga layar medium, baru 3 kolom di layar besar --}}
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
 
-        <!-- Card 1: Rumah Sakit -->
         <div class="bg-white p-6 rounded-xl shadow-md animate__animated animate__fadeInUp">
             <h2 class="text-lg font-semibold mb-4 flex items-center gap-2">
                 <i class="fa-solid fa-hospital text-red-600 text-2xl"></i>
@@ -152,13 +146,11 @@
                     </tbody>
                 </table>
             </div>
-            <!-- Pagination for Hospitals -->
             <div class="mt-6">
                 {{ $hospitals->links('pagination::bootstrap-4') }}
             </div>
         </div>
 
-        <!-- Card 2: Konsultasi Dokter -->
         <div class="bg-white p-6 rounded-xl shadow-md animate__animated animate__fadeInUp animate__delay-0-5s">
             <h2 class="text-lg font-semibold mb-4 flex items-center gap-2">
                 <i class="fa-solid fa-user-doctor text-red-600 text-2xl"></i>
@@ -170,39 +162,47 @@
                     <thead>
                         <tr>
                             <th>Dokter</th>
-                            <th>Tanggal</th>
+                            <th>Tanggal/Waktu</th>
                             <th>Status</th>
+                            <th>Catatan</th> {{-- Tambahkan kolom ini --}}
                         </tr>
                     </thead>
                     <tbody>
                         @forelse ($consultations as $consultation)
                             <tr>
-                                {{-- Assuming 'user_doctor' relation in Consultation model points to the User model for doctor --}}
-                                <td>{{ $consultation->user_doctor->name ?? 'Dokter Tidak Dikenal' }}</td>
-                                <td>{{ \Carbon\Carbon::parse($consultation->date)->translatedFormat('d M Y') }}</td>
+                                {{-- Memanggil relasi 'doctor' yang telah didefinisikan di model Consultation --}}
+                                <td>{{ $consultation->doctor->name ?? 'Dokter Tidak Dikenal' }}</td>
+                                {{-- Memanggil accessor 'formatted_consultation_date' dari model Consultation --}}
+                                <td>{{ $consultation->formatted_consultation_date }}</td>
                                 <td>
-                                    @if (\Carbon\Carbon::parse($consultation->date)->isFuture())
-                                        <span class="text-blue-500">Menunggu</span>
+                                    @if ($consultation->status == 'pending')
+                                        <span class="badge bg-warning text-dark">Pending</span>
+                                    @elseif ($consultation->status == 'approved')
+                                        <span class="badge bg-success">Disetujui</span>
+                                    @elseif ($consultation->status == 'rejected')
+                                        <span class="badge bg-danger">Ditolak</span>
+                                    @elseif ($consultation->status == 'completed')
+                                        <span class="badge bg-info">Selesai</span>
                                     @else
-                                        <span class="text-green-500">Selesai</span>
+                                        <span class="badge bg-secondary">Unknown</span>
                                     @endif
                                 </td>
+                                {{-- Menampilkan catatan, membatasi panjangnya untuk kerapian --}}
+                                <td>{{ Str::limit($consultation->notes, 50) }}</td>
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="3" class="text-center text-gray-500">Tidak ada riwayat konsultasi.</td>
+                                <td colspan="4" class="text-center text-gray-500">Tidak ada riwayat konsultasi.</td>
                             </tr>
                         @endforelse
                     </tbody>
                 </table>
             </div>
-            <!-- Pagination for Consultations -->
             <div class="mt-3">
                 {{ $consultations->links('pagination::bootstrap-4') }}
             </div>
         </div>
 
-        <!-- Card 3: Tes Laboratorium (Now a List) -->
         <div class="bg-white p-6 rounded-xl shadow-md animate__animated animate__fadeInUp animate__delay-1s">
             <h2 class="text-lg font-semibold mb-4 flex items-center gap-2">
                 <i class="fa-solid fa-vial text-red-600 text-2xl"></i>
@@ -240,9 +240,7 @@
     </div>
 
     {{-- Chart and Mini Map Row --}}
-    {{-- Grid ini sudah diatur agar grafik mengambil 2 kolom dan minimap 1 kolom di layar besar --}}
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <!-- Blood Sugar Trend Chart -->
         <div class="bg-white p-6 rounded-xl shadow-md animate__animated animate__fadeInUp animate__delay-1-5s lg:col-span-2">
             <h2 class="text-xl font-semibold mb-4 flex items-center gap-2">
                 <i class="fa-solid fa-chart-line text-red-600"></i>
@@ -253,7 +251,6 @@
             </div>
         </div>
 
-        <!-- Mini Map Card -->
         <div class="bg-white p-6 rounded-xl shadow-md animate__animated animate__fadeInUp animate__delay-2s lg:col-span-1">
             <h2 class="text-xl font-semibold mb-4 flex items-center gap-2">
                 <i class="fa-solid fa-map-location-dot text-red-600"></i>

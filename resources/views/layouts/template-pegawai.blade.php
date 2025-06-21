@@ -299,15 +299,12 @@
 <body class="bg-gray-100 text-gray-900">
 
     <div id="main-layout-container" class="flex h-screen p-4 gap-4">
-        <!-- Sidebar -->
         <aside id="sidebar" class="sidebar bg-red-600 text-white p-4 rounded-2xl shadow-lg flex flex-col">
-            <!-- Header with logo and toggle -->
             <div class="sidebar-header">
                 <div class="logo-section">
                     <i class="fa-solid fa-heart-circle-bolt"></i>
                     <span class="text-xl font-bold sidebar-text">e-Health</span>
                 </div>
-                <!-- Toggle Button -->
                 <button id="sidebar-toggle" class="sidebar-toggle">
                     <i class="fa-solid fa-chevron-left text-sm"></i>
                 </button>
@@ -322,13 +319,6 @@
                         ['label' => 'Konsultasi', 'route' => 'pegawai.consultations.index', 'icon' => 'fa-solid fa-notes-medical'],
                         ['label' => 'Rawat Inap', 'route' => 'pegawai.rawat-inap.index', 'icon' => 'fa-solid fa-bed-pulse'],
                         ['label' => 'Data Pasien', 'route' => 'pegawai.patients.index', 'icon' => 'fa-solid fa-user-injured'],
-                        ['label' => 'Hasil Lab', 'route' => 'pegawai.lab-tests.index', 'icon' => 'fa-solid fa-vial'],
-                        ['label' => 'E-Resep', 'route' => 'pegawai.e-resep.index', 'icon' => 'fa-solid fa-prescription-bottle'],
-                        ['label' => 'Data Dokter', 'route' => 'pegawai.doctors.index', 'icon' => 'fa-solid fa-user-doctor'],
-                        ['label' => 'Data Rumah Sakit', 'route' => 'pegawai.hospitals.index', 'icon' => 'fa-solid fa-hospital'],
-                        ['label' => 'Layanan Ambulans', 'route' => 'pegawai.ambulances.index', 'icon' => 'fa-solid fa-truck-medical'],
-                        ['label' => 'Statistik & Laporan', 'route' => 'pegawai.reports.index', 'icon' => 'fa-solid fa-chart-bar'],
-                        // Removed 'Pengaturan Sistem'
                     ];
 
                     $currentRoute = Request::route()->getName();
@@ -351,27 +341,17 @@
             </div>
         </aside>
 
-        <!-- Main Area -->
         <div id="main-area" class="flex-1 flex flex-col">
-            <!-- Navbar -->
             <header class="bg-white p-4 rounded-2xl shadow flex items-center justify-between mb-4">
                 <div class="text-xl font-semibold">@yield('page-title', 'Welcome to SmartClinic')</div>
 
-                <!-- Icons -->
                 <div class="flex items-center gap-4">
-                    <i class="fa-solid fa-bell cursor-pointer hover:text-red-600 text-lg"></i>
-                    <i class="fa-solid fa-envelope cursor-pointer hover:text-red-600 text-lg"></i>
                     <div class="dropdown">
                         <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
                             data-bs-toggle="dropdown" aria-expanded="false">
                             {{ Auth::user()->name }}
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <li>
-                                <a class="dropdown-item" href="{{ route('profile.edit') }}">
-                                    {{ __('Profile') }}
-                                </a>
-                            </li>
                             <li>
                                 <form method="POST" action="{{ route('logout') }}">
                                     @csrf
@@ -386,23 +366,18 @@
                 </div>
             </header>
 
-            <!-- Main Content Area -->
             <main class="flex-1 overflow-y-auto">
                 @yield('content')
             </main>
         </div>
     </div>
 
-    <!-- jQuery (Load before Bootstrap) -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-    <!-- Bootstrap Bundle (JS) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Leaflet JS (optional) -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
-    <!-- Leaflet Draw JS (optional) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
 
     <script>

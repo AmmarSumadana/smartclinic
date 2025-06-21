@@ -312,19 +312,12 @@
 
                 <!-- Icons -->
                 <div class="flex items-center gap-4">
-                    <i class="fa-solid fa-bell cursor-pointer hover:text-red-600 text-lg"></i>
-                    <i class="fa-solid fa-envelope cursor-pointer hover:text-red-600 text-lg"></i>
                     <div class="dropdown">
                         <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
                             data-bs-toggle="dropdown" aria-expanded="false">
                             {{ Auth::user()->name }}
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <li>
-                                <a class="dropdown-item" href="{{ route('profile.edit') }}">
-                                    {{ __('Profile') }}
-                                </a>
-                            </li>
                             <li>
                                 <form method="POST" action="{{ route('logout') }}">
                                     @csrf

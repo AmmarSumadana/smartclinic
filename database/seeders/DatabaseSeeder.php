@@ -24,7 +24,7 @@ class DatabaseSeeder extends Seeder
             // Add other seeders here
         ]);
         $this->call([
-            DoctorSeeder::class,
+            UserDoctorSeeder::class,
         ]);
         $this->call([
             EResepSeeder::class,
